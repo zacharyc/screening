@@ -5,10 +5,18 @@
  </copyright> */
 
 /**
+ * index.js
+ *
+ * This file starts the director server. The main server that lives on the host machine. It is a node process and is
+ * responsible for managing the agent pool, database, and restful interactions
+ */
+
+
+/**
  * Starts up the server defined in server.js
  */
 
-var PORT = 8081;
+var PORT = 8081; // Default Port
 
 var path = require("path");
 var optimist = require('optimist');
@@ -36,15 +44,15 @@ if(argv.port) {
 
 var express = require('express');
 var app = express.createServer();
-var screening = require('./server.js');
-screening.configureServer();
+var director = require('./director/director.js');
+director.configureServer();
 var socketApi = require("./lib/sockets.js");
 
 app.configure(function() {
-    app.use("/screening", screening.app);
+    app.use("/screening", director.app);
     
     // Socket.io Initialization
-    socketApi.init(app, screening.agentPool, screening.SCREENING_VERSION);
+    socketApi.init(app, director.agentPool, director.SCREENING_VERSION);
 });
 
 app.configure('development', function() {
