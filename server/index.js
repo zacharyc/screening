@@ -22,8 +22,6 @@ var path = require("path");
 var optimist = require('optimist');
 var argv = optimist
     .usage('Usage: $0')
-    .describe('debug', 'Run server with debug output enabled')
-    .describe('production', 'Run server in production mode')
     .describe('port', 'Override listen port')
     .argv;
 
@@ -32,35 +30,27 @@ if(argv.help) {
     process.exit();
 }
 
-if(argv.production) {
-    process.env.NODE_ENV = "production";
-} else {
-    process.env.NODE_ENV = "development";
-}
-
 if(argv.port) {
     PORT = argv.port;
 }
 
 var express = require('express');
 var app = express.createServer();
-var director = require('./director/director.js');
-director.configureServer();
+var screening = require('./screening/screening.js');
+screening.configureServer();
 var socketApi = require("./lib/sockets.js");
 
 app.configure(function() {
-    app.use("/screening", director.app);
+    app.use("/screening", screening.app);
     
     // Socket.io Initialization
-    socketApi.init(app, director.agentPool, director.SCREENING_VERSION);
+    socketApi.init(app, screening.agentPool, screening.SCREENING_VERSION);
 });
 
-app.configure('development', function() {
-    var MONTAGE_PATH = path.join(__dirname, "../../node_modules/montage");
+var MONTAGE_PATH = path.join(__dirname, "../../node_modules/montage");
 
-    app.use("/node_modules/montage", express.static(MONTAGE_PATH));
-    app.use("/node_modules/montage", express.directory(MONTAGE_PATH));
-});
+app.use("/node_modules/montage", express.static(MONTAGE_PATH));
+app.use("/node_modules/montage", express.directory(MONTAGE_PATH));
 
 app.listen(PORT);
 console.log("Environment: Node.js -", process.version, "Platform -", process.platform);
