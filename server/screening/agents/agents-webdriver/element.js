@@ -8,10 +8,10 @@
  */
 var Q = require("q"),
     when = Q.when,
-    by = require("../webdriver/util").By,
-    css2xpath = require("../webdriver/css2xpath"),
+    by = require("../../webdriver/util").By,
+    css2xpath = require("../../webdriver/css2xpath"),
     resultFilter = require('./util').resultFilter,
-    Warning = require('../testcase/warning').Warning;
+    Warning = require('../../testcase/warning').Warning;
 /**
  * @class module:screening/element.WebdriverElement
  * @classdesc This class provides all methods that can be executed on a selected element.<br>

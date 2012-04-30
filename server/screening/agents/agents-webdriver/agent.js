@@ -9,14 +9,14 @@
 var Q = require("q"),
     when = Q.when,
     fs = require("fs"),
-    by = require("../webdriver/util").By,
-    css2xpath = require("../webdriver/css2xpath"),
-    Session = require("../webdriver/session.js").Session,
+    by = require("../../webdriver/util").By,
+    css2xpath = require("../../webdriver/css2xpath"),
+    Session = require("../../webdriver/session.js").Session,
     resultFilter = require('./util').resultFilter,
     WebDriverComponent = require("./component").WebDriverComponent,
     WebdriverElement = require("./element").WebdriverElement,
     WebdriverElementArray = require("./element").WebdriverElementArray,
-    Warning = require('../testcase/warning').Warning;
+    Warning = require('../../testcase/warning').Warning;
 /**
     @class module:screening/agent.WebDriverAgent
 */

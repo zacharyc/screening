@@ -4,7 +4,7 @@
  (c) Copyright 2011 Motorola Mobility, Inc.  All Rights Reserved.
  </copyright> */
 
-var TMP_TEST_FILE_NAME = require("../consts.js").TMP_TEST_FILE_NAME;
+var TMP_TEST_FILE_NAME = require("./consts.js").TMP_TEST_FILE_NAME;
 
 /**
  * Return the line and column number of the current position.

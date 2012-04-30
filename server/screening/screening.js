@@ -18,7 +18,8 @@ var settings = require("./settings.js"),
     simpleRequest = require("request"),
     MongoDbProvider = require("./database/mongo-provider.js"),
     TestcaseResultsProvider = require("./database/testcase-results-provider.js"),
-    ScriptsProvider = require("./database/scripts-provider.js");
+    ScriptsProvider = require("./database/scripts-provider.js"),
+    socketApi = require("./sockets.js");
 
 console.log('awesome!');
 
@@ -39,6 +40,8 @@ var PORT = settings.defaultPort; // Default Port
 if(argv.port) {
     PORT = argv.port;
 }
+
+var app = exports.app = express.createServer();
 
 // Set up the Server : TODOz: clean up
 // Provide a way (via command line parameters for us to use a different db server)
@@ -102,16 +105,18 @@ simpleRequest(url + "/status", function (error, response, body) {
         console.log("Found a webdriver instance running at " + url + ". Added it as an Agent by default.");
     }
 });
+
 //var app = express.createServer();
-var screening = require('./screening/screening.js');
-screening.configureServer();
-var socketApi = require("./lib/sockets.js");
+//var packageJsonContents = fs.readFileSync(__dirname + "/package.json", "utf8");
+var packageJsonContents = fs.readFileSync(__dirname + "/../package.json", "utf8");
+var packageJson = JSON.parse(packageJsonContents);
+const SCREENING_VERSION = packageJson.version;
 
 app.configure(function() {
-    app.use("/screening", screening.app);
+    app.use("/screening", app);
     
     // Socket.io Initialization
-    socketApi.init(app, screening.agentPool, screening.SCREENING_VERSION);
+    socketApi.init(app, agentPool, SCREENING_VERSION);
 });
 
 var MONTAGE_PATH = path.join(__dirname, "../../node_modules/montage");

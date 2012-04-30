@@ -18,16 +18,16 @@ var fs = require("fs"),
     when = Q.when,
 
     // Webdriver Agent
-    WebDriverAgent = require('./agents-webdriver/agent.js').WebDriverAgent,
-    createWebdriverSession = require('./agents-webdriver/util.js').createWebdriverSession,
-    mouseEnum = require('./agents-webdriver/util.js').Mouse,
-    keyEnum = require('./agents-webdriver/util.js').Key,
+    WebDriverAgent = require('../agents/agents-webdriver/agent.js').WebDriverAgent,
+    createWebdriverSession = require('../agents/agents-webdriver/util.js').createWebdriverSession,
+    mouseEnum = require('../agents/agents-webdriver/util.js').Mouse,
+    keyEnum = require('../agents/agents-webdriver/util.js').Key,
 
     // Actually we just import the assert.js, to generate the mapping code further down, that we inject in the test script,
     // no idea how to otherwise map methods to the inside-function scope, so we generate them.
-    assertDecorator = require('../lib/testcase/assert-decorator.js'),
+    assertDecorator = require('./assert-decorator.js'),
     asserts = require('./assert.js'),
-    getStackTraceByErrorStack = require("./util.js").getStackTraceByErrorStack,
+    getStackTraceByErrorStack = require("../util.js").getStackTraceByErrorStack,
     TMP_TEST_FILE_NAME = require("../consts.js").TMP_TEST_FILE_NAME;
 
 /**
