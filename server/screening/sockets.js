@@ -33,7 +33,7 @@ exports.init = function init(app, agentPool, SCREENING_VERSION) {
             socket.on("disconnect", function (data) {
                 // TODO: Do we need to do anything here? I don't think so
             });
-            callback(SCREENING_VERSION, agentPool.getAgents(), listAvailableTests());
+            callback(SCREENING_VERSION, agentPool.getAgents(), []); // TODOz: listAvailableTests());
         });
         
         socket.on("initRecorder", function(id) {
