@@ -51,7 +51,7 @@ exports.AgentListView = Montage.create(Component, {
     _webdriverDialogCallback: {
         value: function(event) {
             var req = new XMLHttpRequest();
-            req.open("POST", "/screening/api/v1/agents/webdriver?api_key=5150", true);
+            req.open("POST", "/api/v1/agents/webdriver?api_key=5150", true);
             req.setRequestHeader("Content-Type", "application/json");
             req.onreadystatechange = function(aEvt) {
                 if(req.readyState == 4 && req.status >= 300) {

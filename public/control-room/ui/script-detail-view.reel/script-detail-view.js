@@ -261,7 +261,7 @@ exports.ScriptDetailView = Montage.create(Component, {
                 for (var i = 0; i < agentCount; ++i) {
                     var agent = self.activeAgents[i];
                     var req = new XMLHttpRequest();
-                    req.open("POST", "/screening/api/v1/agents/" + agent.info.id +
+                    req.open("POST", "/api/v1/agents/" + agent.info.id +
                         "/execute_serialized_code?api_key=5150", true);
                     req.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
                     var requestBody = {
@@ -320,7 +320,7 @@ exports.ScriptDetailView = Montage.create(Component, {
             Confirm.show("Are you sure you want to delete this script?", function() {
                 // OK
                 var req = new XMLHttpRequest();
-                req.open("DELETE", "/screening/api/v1/scripts/" + self.scriptSource.id + "?api_key=5150", true);
+                req.open("DELETE", "/api/v1/scripts/" + self.scriptSource.id + "?api_key=5150", true);
                 self.needsSave = false;
                 req.onload = function(event) {
                     console.log('deleting the script source response:' + event);
@@ -337,7 +337,7 @@ exports.ScriptDetailView = Montage.create(Component, {
     downloadScriptSource: {
         value: function() {
             var self = this;
-            window.location.href = "/screening/api/v1/scripts/" + self.scriptSource.id + "/download?api_key=5150";
+            window.location.href = "/api/v1/scripts/" + self.scriptSource.id + "/download?api_key=5150";
         }
     },
 
@@ -350,7 +350,7 @@ exports.ScriptDetailView = Montage.create(Component, {
 
             var self = this;
             var req = new XMLHttpRequest();
-            req.open("PUT", "/screening/api/v1/scripts/" + id + "?api_key=5150", true);
+            req.open("PUT", "/api/v1/scripts/" + id + "?api_key=5150", true);
             req.onload = function(event) {
                 if (event.target.status === 500) {
                     try {
@@ -447,7 +447,7 @@ exports.ScriptDetailView = Montage.create(Component, {
             this.pauseRecordButton.label = "Pause Recording";
 
             var req = new XMLHttpRequest();
-            req.open("POST", "/screening/api/v1/agents/" + agent.info.id + "/recording?api_key=5150", true);
+            req.open("POST", "/api/v1/agents/" + agent.info.id + "/recording?api_key=5150", true);
             req.setRequestHeader("Content-Type", "application/json");
             req.send(JSON.stringify({url: urlToRecord}));
         }
@@ -462,7 +462,7 @@ exports.ScriptDetailView = Montage.create(Component, {
 
             var self = this;
             var req = new XMLHttpRequest();
-            req.open("DELETE", "/screening/api/v1/agents/" + agent.info.id + "/recording?api_key=5150", true);
+            req.open("DELETE", "/api/v1/agents/" + agent.info.id + "/recording?api_key=5150", true);
             req.onload = function(event) {
                 var responseBody = JSON.parse(this.responseText);
                 self.appendCode(responseBody.source);
@@ -490,7 +490,7 @@ exports.ScriptDetailView = Montage.create(Component, {
 
             var self = this;
             var req = new XMLHttpRequest();
-            req.open("PUT", "/screening/api/v1/agents/" + agent.info.id + "/recording/pause?api_key=5150", true);
+            req.open("PUT", "/api/v1/agents/" + agent.info.id + "/recording/pause?api_key=5150", true);
             req.onload = function(event) {
                 var responseBody = JSON.parse(this.responseText);
                 self.appendCode(responseBody.source);
@@ -507,7 +507,7 @@ exports.ScriptDetailView = Montage.create(Component, {
 
             var self = this;
             var req = new XMLHttpRequest();
-            req.open("PUT", "/screening/api/v1/agents/" + agent.info.id + "/recording/resume?api_key=5150", true);
+            req.open("PUT", "/api/v1/agents/" + agent.info.id + "/recording/resume?api_key=5150", true);
             req.send(null);
         }
     },

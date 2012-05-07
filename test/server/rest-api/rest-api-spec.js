@@ -13,7 +13,7 @@ var request = require('../../../server/node_modules/request'),
 const JSON_CONTENT_TYPE = 'application/json; charset=utf-8';
 const PORT = 8082; // don't interfere with the normal screening port
 // start the server to test
-const BASE_URL = 'http://127.0.0.1:' + PORT + '/screening/api/v1';
+const BASE_URL = 'http://127.0.0.1:' + PORT + '/api/v1';
 
 initServer(PORT);
 describe('REST Error handling', function() {

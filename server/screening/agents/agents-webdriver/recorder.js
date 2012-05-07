@@ -442,8 +442,8 @@ var eventUtil = Object.create(EventUtility);
 console.log("Connecting to " + server.domain + ":" + server.port);
 
 // Include socket.io and setup the socket connection
-injectScript(server.domain + ":" + server.port + "/screening/socket.io/socket.io.js", function() {
-    var socket = io.connect(server.domain + ":" + server.port, { resource: "screening/socket.io" });
+injectScript(server.domain + ":" + server.port + "/socket.io/socket.io.js", function() {
+    var socket = io.connect(server.domain + ":" + server.port, { resource: "socket.io" });
     eventUtil.socket = socket; // Meh, this isn't the most elegant solution...
     socket.emit("initRecorder", agentId); // Tell the server that we're available for recording
 

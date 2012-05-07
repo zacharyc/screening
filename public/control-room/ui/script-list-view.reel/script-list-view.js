@@ -65,8 +65,8 @@ exports.ScriptListView = Montage.create(Component, {
     queryScriptSources: {
         value: function(scriptName, searchScope, searchString) {
             var self = this;
-            //console.log(searchScope);
-            var url = "/screening/api/v1/scripts?api_key=5150";
+            //console.log(searchScope); TODOz: remove
+            var url = "/api/v1/scripts?api_key=5150";
 
             if (searchString && searchString.trim()) {
                 if (searchScope && searchScope === "tags") {
@@ -136,7 +136,7 @@ exports.ScriptListView = Montage.create(Component, {
             var self = this;
 
             var req = new XMLHttpRequest();
-            req.open("POST", "/screening/api/v1/scripts/?api_key=5150", true);
+            req.open("POST", "/api/v1/scripts/?api_key=5150", true);
             req.onload = function(event) {
                 var createdScript = JSON.parse(this.responseText);
 
@@ -164,7 +164,7 @@ exports.ScriptListView = Montage.create(Component, {
 
     downloadAllScripts: {
         value: function() {
-            window.location.href = "/screening/api/v1/scripts/archive?api_key=5150";
+            window.location.href = "/api/v1/scripts/archive?api_key=5150";
         }
     }
 });

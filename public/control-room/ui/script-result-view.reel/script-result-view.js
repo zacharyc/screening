@@ -152,7 +152,7 @@ exports.ScriptResultView = Montage.create(Component, {
                 }, 0);
                 self.totalExceptions = data.exception ? 1 : 0;
             }, false);
-            var link = this.viewJsonUrl = "/screening/api/v1/test_results/" + self.testcaseId + "?api_key=5150";
+            var link = this.viewJsonUrl = "/api/v1/test_results/" + self.testcaseId + "?api_key=5150";
             this.downloadJsonUrl = link + "&download=true";
             xhr.open("GET", this.downloadJsonUrl);
             xhr.send();

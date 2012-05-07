@@ -89,7 +89,7 @@ exports.ScriptUploader = Montage.create(Component, {
                         };
 
                         var req = new XMLHttpRequest();
-                        req.open("POST", "/screening/api/v1/scripts/?api_key=5150", true);
+                        req.open("POST", "/api/v1/scripts/?api_key=5150", true);
                         req.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
                         req.onload = function(event) {
                             var script = JSON.parse(this.responseText);

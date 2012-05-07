@@ -30,7 +30,7 @@ exports.ScriptResultsView = Montage.create(Component, {
 
     _baseResultsUrl : {
         enumerable: false,
-        value: "/screening/api/v1/test_results?api_key=5150"
+        value: "/api/v1/test_results?api_key=5150"
     },
 
     results: {
@@ -132,7 +132,7 @@ exports.ScriptResultsView = Montage.create(Component, {
             });
 
             var xhr = new XMLHttpRequest();
-            xhr.open("DELETE", "/screening/api/v1/test_results/multiple?api_key=5150");
+            xhr.open("DELETE", "/api/v1/test_results/multiple?api_key=5150");
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.send(JSON.stringify({
                 ids: ids
@@ -266,7 +266,7 @@ exports.ScriptResultsView = Montage.create(Component, {
         value: function(searchString, cb) {
             var self = this;
 
-            var metadataUrl = "/screening/api/v1/test_results/metadata?api_key=5150"
+            var metadataUrl = "/api/v1/test_results/metadata?api_key=5150"
             if(searchString) {
                 metadataUrl += "&any=" + searchString;
             }
