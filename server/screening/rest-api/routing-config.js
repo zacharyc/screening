@@ -3,7 +3,7 @@
  No rights, expressed or implied, whatsoever to this software are provided by Motorola Mobility, Inc. hereunder.<br/>
  (c) Copyright 2011 Motorola Mobility, Inc.  All Rights Reserved.
  </copyright> */
-const apiV1Root = '/screening/api/v1';
+const apiV1Root = '/api/v1';
 const HTTP_200_OK = 200;
 const HTTP_401_UNAUTHORIZED = 401;
 const HTTP_404_NOT_FOUND = 404;

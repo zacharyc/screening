@@ -9,7 +9,7 @@ var fs = require('fs');
 exports.init = function init(app, agentPool, SCREENING_VERSION) {
     var io = null;
     
-    io = require("socket.io").listen(app, {resource: "/screening/socket.io"});
+    io = require("socket.io").listen(app, {resource: "/socket.io"});
 
     io.configure(function() {
         io.set("log level", 1);
