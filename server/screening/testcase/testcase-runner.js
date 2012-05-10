@@ -9,7 +9,7 @@ var fs = require("fs"),
     vm = require("vm"),
     agentTypes = require('../agents/agent-pool.js').agentTypes,
 
-    Sync = require('../sync.js').Sync,
+    Sync = require('../sync.js').Sync, // TODOz: sync is used for keeping track of stacks, we don't need this client side
     ScriptClass = require('./script.js').Script,
     Result = require('./result.js').Result,
 
@@ -22,6 +22,7 @@ var fs = require("fs"),
     createWebdriverSession = require('../agents/agents-webdriver/util.js').createWebdriverSession,
     mouseEnum = require('../agents/agents-webdriver/util.js').Mouse,
     keyEnum = require('../agents/agents-webdriver/util.js').Key,
+    Session = require('../webdriver/session.js').Session,
 
     // Actually we just import the assert.js, to generate the mapping code further down, that we inject in the test script,
     // no idea how to otherwise map methods to the inside-function scope, so we generate them.
@@ -47,44 +48,59 @@ var TestcaseRunner = exports.TestcaseRunner = function(agentPool, isDebugMode, t
 
 /**
  * Executes a test file that is accessible by this node instance.
- * 
+ *
  * @param {String} testFile full path to a file on disk
  * @param {Object} desiredCaps which capabilities should the agent support
  * @return void
  */
-TestcaseRunner.prototype.executeTestFile = function(testFile, desiredCaps) {
-    var self = this;
+// TODOz: looks unused, do we need it?
+// TestcaseRunner.prototype.executeTestFile = function(testFile, desiredCaps) {
+//     var self = this;
 
-    fs.readFile(testFile, "utf8", function(err, data) {
-        self.executeTest(data, desiredCaps);
-    });
-}
+//     fs.readFile(testFile, "utf8", function(err, data) {
+//         self.executeTest(data, desiredCaps);
+//     });
+// };
 
 /**
  * Executes a script string.
- * 
+ *
  * @param {String} testScript a complete test script object, contains the code and name
  * @param {Object} desiredCaps which capabilities should the agent support
  * @param {Object} options will describe preferences during this run of the code (they do not persist)
  * @return void
  */
-TestcaseRunner.prototype.executeTest = function(testScript, desiredCaps, options) {
+TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities, options) {
     // TODO: extract the agents from the testscript
-    var agent = this.agentPool.getAgentByCaps(desiredCaps);
+    var agent = this.agentPool.getAgentByCaps(desiredCapabilities);
     agent.startTest();
 
     var result;
 
-    // If we are a webdriver agent, use the new backend
-    if(agent.type == agentTypes.WEBDRIVER) {
-        result = this._executeWebdriverTest(testScript, agent, options);
-    }
+    var session = new Session({url: agent.url});
+    session.init = function(capabilities, callback){
+        capabilities = capabilities ? capabilities : {};
+        this.startSession(capabilities).then(callback, function(error) {
+            console.error("**** WEBDRIVER START SESSION REJECTED! *****", error);
+            callback(error);
+        });
+    };
 
-    // add the result to our central repository
-    this.resultsProv.upsert(result.get(), function(err, object) {
-        if (err) throw err;
+    session.init(agent.capabilities, function() {
+            session.executeScript('alert("foo");', []);
     });
-    return result.testcase.id;
+    return 12; // TODOz: clean this up
+
+    // // If we are a webdriver agent, use the new backend
+    // if(agent.type == agentTypes.WEBDRIVER) {
+    //     result = this._executeWebdriverTest(testScript, agent, options);
+    // }
+
+    // // add the result to our central repository
+    // this.resultsProv.upsert(result.get(), function(err, object) {
+    //     if (err) throw err;
+    // });
+    // return result.testcase.id;
 };
 
 TestcaseRunner.prototype._executeWebdriverTest = function(testScript, agent, options) {
@@ -109,7 +125,7 @@ TestcaseRunner.prototype._executeWebdriverTest = function(testScript, agent, opt
         var pref = testScript.preferences[i];
         scriptObject.setOption(pref.shortName, pref.value);
     }
-    for(var i in options){
+    for(var j in options){
         scriptObject.setOption(i, options[i]);
     }
 
@@ -125,7 +141,7 @@ TestcaseRunner.prototype._executeWebdriverTest = function(testScript, agent, opt
 
         // Show the notification to the control room
         agent.endTest(result.get());
-    }
+    };
 
     // Start the webdriver session
     session.init(agent.capabilities, function(err) {
