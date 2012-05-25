@@ -78,8 +78,9 @@ var WebDriverAgent = exports.WebDriverAgent = Object.create(BaseAgent, {
             var session = this.recordingSession = createWebdriverSession(this.url);
             session.init(this.capabilities, function() {
 
-                // Navigate the new session to the recording URL
-                Q.when(session.get(recordingUrl), function() {
+                Q.when(session.executeScript("console.log('working in some way'); var w = window.open('http://www.zacharyc.com', 'wonderfulWindow', 'resizable=yes'); w.name = 'bad window';w.resizeTo(1920, 1174); w.console.log('awesome!');"), function() {
+                    // Navigate the new session to the recording URL
+                    //Q.when(session.get(recordingUrl), function() {
                     
                     // Read the recording script
                     fs.readFile(__dirname + "/agents-webdriver/recorder.js", 'utf8', function(err, recordingScript) {

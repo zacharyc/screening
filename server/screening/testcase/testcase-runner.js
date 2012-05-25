@@ -87,7 +87,33 @@ TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities,
     };
 
     session.init(agent.capabilities, function() {
-            session.executeScript('alert("foo");', []);
+        // Read the recording script
+        fs.readFile(__dirname + "/../../client/webdriver.js", 'utf8', function(err, webDriverScript) {
+            console.log(err, webDriverScript);
+            if(err) { console.log(err); return; }
+
+            // Inject the recording script into the page
+            Q.when(session.executeScript(webDriverScript), function() {
+                console.log("webdriver script loaded");
+                // When the socket is instantiated it recorderReady will be called.
+            }, function(err) {
+                console.log("Record Script Failed", err.value.message);
+            }).then(function() {
+                // session.executeScript('alert("foo");', []);
+
+                fs.readFile(__dirname + "/../../client/connect.js", 'utf8', function(err, connect) {
+                    Q.when(session.executeScript(connect), function() {
+                        console.log("connect script launched");
+                        // When the socket is instantiated it recorderReady will be called.
+                    }, function(err) {
+                        console.log("Record Script Failed", err.value.message);
+                    });
+                });
+            });
+        });
+
+        console.log(__dirname);
+        //
     });
     return 12; // TODOz: clean this up
 
