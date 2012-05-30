@@ -89,7 +89,7 @@ TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities,
     session.init(agent.capabilities, function() {
         // Read the recording script
         fs.readFile(__dirname + "/../../client/webdriver.js", 'utf8', function(err, webDriverScript) {
-            console.log(err, webDriverScript);
+            // TODOz: remove? console.log(err, webDriverScript);
             if(err) { console.log(err); return; }
 
             // Inject the recording script into the page
