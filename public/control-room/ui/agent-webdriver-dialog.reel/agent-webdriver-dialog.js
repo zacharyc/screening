@@ -25,7 +25,7 @@ exports.AgentWebdriverDialog = Montage.create(Component, {
 
             var urlAndBrowserName = {
                 url: self.url,
-                browserName: self.selectedBrowserNames.selectedObjects[0].value
+                browserName: self.selectedBrowserNames[0].value
             };
 
             var anEvent = document.createEvent("CustomEvent");
