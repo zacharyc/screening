@@ -100,8 +100,10 @@ TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities,
                 console.log("Record Script Failed", err.value.message);
             }).then(function() {
                 // session.executeScript('alert("foo");', []);
+                console.log(session.session.sessionId);
 
                 fs.readFile(__dirname + "/../../client/connect.js", 'utf8', function(err, connect) {
+                    connect = "var sessionId = " + session.session.sessionId + ";" + connect;
                     Q.when(session.executeScript(connect), function() {
                         console.log("connect script launched");
                         // When the socket is instantiated it recorderReady will be called.
