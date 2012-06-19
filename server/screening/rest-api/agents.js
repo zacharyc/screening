@@ -8,7 +8,7 @@ var path = require('path'),
     express = require('express'),
     simpleRequest = require("request");
 
-module.exports = function(agentPool, testcaseRunner, scriptsProvider) {
+module.exports = function(agentPool, testcaseRunner, scriptsProvider, screeningIp) {
     var app = express.createServer();
 
     app.mounted(function(otherApp) {
@@ -88,7 +88,7 @@ module.exports = function(agentPool, testcaseRunner, scriptsProvider) {
         }
 
         try {
-            testcaseId = testcaseRunner.executeTest(body, {id: req.params.id}, options);
+            testcaseId = testcaseRunner.executeTest(body, {id: req.params.id}, options, screeningIp);
         } catch(ex) {
             console.log("Exception thrown while attempting to run test: " + ex, ex.stack);
             res.statusCode = 404;

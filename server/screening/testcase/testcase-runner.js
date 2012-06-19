@@ -70,7 +70,7 @@ var TestcaseRunner = exports.TestcaseRunner = function(agentPool, isDebugMode, t
  * @param {Object} options will describe preferences during this run of the code (they do not persist)
  * @return void
  */
-TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities, options) {
+TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities, options, serverIp) {
     // TODO: extract the agents from the testscript
     var agent = this.agentPool.getAgentByCaps(desiredCapabilities);
     agent.startTest();
@@ -103,12 +103,26 @@ TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities,
                 console.log(session.session.sessionId);
 
                 fs.readFile(__dirname + "/../../client/connect.js", 'utf8', function(err, connect) {
-                    connect = "var sessionId = " + session.session.sessionId + ";" + connect;
+                    var serverParams = "var sessionId = " + session.session.sessionId + ";";
+                    serverParams = serverParams + "var serverIp = '" + serverIp + "';";
+                    connect = serverParams + connect;
+
                     Q.when(session.executeScript(connect), function() {
                         console.log("connect script launched");
                         // When the socket is instantiated it recorderReady will be called.
                     }, function(err) {
                         console.log("Record Script Failed", err.value.message);
+                    });
+                });
+            }).then(function() {
+                fs.readFile(__dirname + "/../../client/loadSocketio.js", 'utf8', function(err, socketIo) {
+                    console.log('socket io', socketIo);
+                    var serverParams = "var serverIp = '" + serverIp + "';";
+                    socketIo = serverParams + socketIo;
+                    Q.when(session.executeScript(socketIo), function() {
+                        console.log('socket.io launched');
+                    }, function(err) {
+                        console.log('socket.io failed', err.value);
                     });
                 });
             });

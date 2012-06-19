@@ -25,6 +25,7 @@ var argv = optimist
     .usage('Usage: $0')
     .describe('port', 'Override listen port')
     .describe('debug', 'TestcaseRunner will output more details')
+    .describe('ip', 'IP address of the server, default localhost')
     .argv;
 // TODO: include server options for starting with a different db provider (host and port)
 
@@ -37,6 +38,11 @@ var PORT = settings.defaultPort; // Default Port
 
 if(argv.port) {
     PORT = argv.port;
+}
+
+var SCREENING_IP = settings.defaultIp;
+if(argv.ip) {
+    SCREENING_IP = argv.ip;
 }
 
 var app = exports.app = express.createServer();
@@ -79,7 +85,7 @@ app.configure(function() {
 
 // // REST-API wiring
 var routingConfig = require("./rest-api/routing-config.js");
-var agentsApi = require("./rest-api/agents.js")(agentPool, testcaseRunner, scriptsProvider);
+var agentsApi = require("./rest-api/agents.js")(agentPool, testcaseRunner, scriptsProvider, SCREENING_IP);
 var scriptsApi = require("./rest-api/scripts.js")(scriptsProvider);
 var testResultsApi = require("./rest-api/test-results.js")(testcaseResultsProvider);
 
@@ -119,6 +125,6 @@ app.use("/node_modules/montage", express.static(MONTAGE_PATH));
 app.use("/node_modules/montage", express.directory(MONTAGE_PATH));
 
 app.listen(PORT);
-console.log("Environment: Node.js -", process.version, "Platform -", process.platform);
+console.log("Environment: Node.js -", process.version);
 console.log("Screening Server running on port " + PORT + " [" + process.env.NODE_ENV + "]");
 console.log("Screening Control Room: http://localhost:" + PORT + "/screening/control-room/index.html");
