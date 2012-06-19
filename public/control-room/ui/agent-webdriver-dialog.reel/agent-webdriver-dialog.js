@@ -6,7 +6,7 @@ exports.AgentWebdriverDialog = Montage.create(Component, {
     hasTemplate: {value: true},
 
     url: {
-        value: "http://localhost:9515"
+        value: "http://localhost:4444/wd/hub"
     },
 
     selectedBrowserNames: {
