@@ -1,0 +1,9 @@
+{
+    "name": "screening/director",
+    "description": "Screening Director app",
+    "version": "0.1",
+    "mappings": {
+        "montage": "../node_modules/montage",
+        "screening/common": "../common"
+    }
+}
