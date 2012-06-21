@@ -25,7 +25,7 @@ exports.Main = Montage.create(Component, {
 
             this.socket = io.connect("http://" + document.domain + ":" + document.location.port, { resource: "socket.io" });
 
-            this._initDriver();
+            this._initDirector();
 
             this.socket.on("reconnect", function() {
                 self._initDriver();
@@ -33,13 +33,20 @@ exports.Main = Montage.create(Component, {
         }
     },
 
-    _initDriver: {
+    _initDirector: {
         value: function() {
             var self = this;
             this.socket.emit("initDirector", function() {
                 // TODOz: code needs to be here
 
             });
+        }
+    },
+
+    handlePingAction: {
+        value: function() {
+            console.log('foo');
+            this.socket.emit("serverPing");
         }
     }
 });

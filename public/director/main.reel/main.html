@@ -11,6 +11,20 @@
         
         <script type="text/montage-serialization">
         {
+            "pingButton": {
+                "prototype": "montage/ui/button.reel",
+                "properties": {
+                    "element": {"#": "ping"},
+                    "identifier": "Ping"
+                },
+                "listeners": [
+                    {
+                        "type": "action",
+                        "listener": {"@": "owner"}
+                    }
+                ]
+            },
+
             "owner": {
                 "module": "director/main.reel",
                 "name": "Main",
@@ -24,7 +38,7 @@
 
     <body>
         <section id="director" data-montage-id="director" class="mon-dock-view director">
-            
+            <button id="ping" data-montage-id="ping">Ping Server</button>
         </section>
     </body>
 </html>

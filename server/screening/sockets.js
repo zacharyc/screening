@@ -40,6 +40,14 @@ exports.init = function init(app, agentPool, SCREENING_VERSION) {
             var agent = agentPool.getAgentById(id);
             agent.recorderReady(socket);
         });
+
+        socket.on("initDirector", function() {
+            console.log('trying to initialize director');
+        });
+
+        socket.on("serverPing", function() {
+            console.log('ping');
+        });
     });
     
     // attaching our socket.io port here for control-room communication
