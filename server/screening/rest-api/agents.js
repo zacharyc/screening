@@ -252,7 +252,9 @@ module.exports = function(agentPool, testcaseRunner, scriptsProvider, screeningI
                 return next(new Error(errorMsg));
             }
             else {
-                var agent = agentPool.addAgent({browserName: browserName}, {
+                var capabilities = {browserName: browserName};
+                capabilities["chrome.switches"] = ["--disable-popup-blocking"];
+                var agent = agentPool.addAgent(capabilities, {
                     url: url,
                     type: agentPool.agentTypes.WEBDRIVER
                 });

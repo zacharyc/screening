@@ -63,6 +63,7 @@ exports.Main = Montage.create(Component, {
             // Get the script
             this._getFileFromServer("connect.js", false, function(script) {
                 console.log("********** in callback", script);
+                eval(script);
             });
         }
     },
