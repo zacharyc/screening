@@ -90,8 +90,8 @@ TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities,
         // Read the recording script
         session.get('http://localhost:8081/director/index.html').then(function() {
             fs.readFile(__dirname + "/../../client/connect.js", 'utf8', function(err, connect) {
-                var serverParams = "var sessionId = " + session.session.sessionId + ";";
-                serverParams = serverParams + "var serverIp = '" + serverIp + "';";
+                var serverParams = "sessionId = " + session.session.sessionId + ";";
+                serverParams = serverParams + "serverIp = '" + serverIp + "';";
                 connect = serverParams + connect;
 
                 Q.when(session.executeScript(connect), function() {
@@ -99,7 +99,9 @@ TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities,
                     // When the socket is instantiated it recorderReady will be called.
                 }, function(err) {
                     console.log("Record Script Failed", err.value.message);
-                });
+                });//.then(session.executeScript("sessionId = " + session.session.sessionId + ";"), function() {
+                //     console.log('should be setup');
+                // });
             });
         });
 

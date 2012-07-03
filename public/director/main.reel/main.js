@@ -17,6 +17,7 @@ exports.Main = Montage.create(Component, {
             var self = this;
             // Add Event Listeners
             window.addEventListener("message", self._receiveMessage, false);
+            window.addEventListener("message", function(event) {console.log('boo');});
         }
     },
 
@@ -48,12 +49,21 @@ exports.Main = Montage.create(Component, {
     _initDirector: {
         value: function() {
             var self = this;
-            this._getFileFromServer("connect.js", false);
+            // this._getFileFromServer("connect.js", false);
 
             this.socket.emit("initDirector", function() {
                 // TODOz: code needs to be here
             });
             window.connectDirector();
+
+            console.log("Director, serverIp is:", serverIp);
+            console.log("Director, sessionId is:", sessionId);
+            console.log("Director, script name is: TODOz");
+
+            // Get the script
+            this._getFileFromServer("connect.js", false, function(script) {
+                console.log("********** in callback", script);
+            });
         }
     },
 
@@ -66,6 +76,7 @@ exports.Main = Montage.create(Component, {
 
     _getFileFromServer: {
         value: function(filename, root, callback) {
+            console.log('in _getFileFromServer', filename);
             var req = new XMLHttpRequest();
             // serverIp has been previously defined
             if(root) {
@@ -75,16 +86,21 @@ exports.Main = Montage.create(Component, {
             }
 
             req.setRequestHeader("Content-Type", "application/javascript");
-            console.log(req);
+            console.log('callback', callback);
             req.onreadystatechange = function(aEvt) {
-                if(req.readyState == 4 && req.status >= 300) {
+                if(req.readyState == 4 && req.status >= 200) {
+                    console.log(req.status);
                     console.log(req.response);
                     if(callback) {
                         callback(req.response);
+                    } else {
+                        console.log('no callback');
                     }
+                    req.onreadystatechange = null;
                     //var resp = JSON.parse(req.response);
                     //Alert.show(resp.error);
                 } else {
+                    console.log('here');
                     console.log(aEvt.value, req.status, req.readyState);
                 }
             };
