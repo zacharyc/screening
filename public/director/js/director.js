@@ -1,4 +1,4 @@
-console.log('loading director');
+// console.log('loading director');
 
 // Called sometime after postMessage is called
 // function receiveMessage(event)
@@ -26,10 +26,9 @@ console.log('loading director');
 
 //window.addEventListener("message", receiveMessage, false);
 
-
+// TODOz: remove this file? do everything in montage?
 
 function connectDirector() {
-    console.log("I'm in connect director");
 
 }
 

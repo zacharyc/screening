@@ -62,7 +62,6 @@ exports.Main = Montage.create(Component, {
 
             // Get the script
             this._getFileFromServer("connect.js", false, function(script) {
-                console.log("********** in callback", script);
                 eval(script);
             });
         }
@@ -77,7 +76,7 @@ exports.Main = Montage.create(Component, {
 
     _getFileFromServer: {
         value: function(filename, root, callback) {
-            console.log('in _getFileFromServer', filename);
+            console.log('retreiving server file: ', filename);
             var req = new XMLHttpRequest();
             // serverIp has been previously defined
             if(root) {
@@ -87,22 +86,14 @@ exports.Main = Montage.create(Component, {
             }
 
             req.setRequestHeader("Content-Type", "application/javascript");
-            console.log('callback', callback);
             req.onreadystatechange = function(aEvt) {
                 if(req.readyState == 4 && req.status >= 200) {
-                    console.log(req.status);
-                    console.log(req.response);
                     if(callback) {
                         callback(req.response);
                     } else {
                         console.log('no callback');
                     }
                     req.onreadystatechange = null;
-                    //var resp = JSON.parse(req.response);
-                    //Alert.show(resp.error);
-                } else {
-                    console.log('here');
-                    console.log(aEvt.value, req.status, req.readyState);
                 }
             };
             req.send();

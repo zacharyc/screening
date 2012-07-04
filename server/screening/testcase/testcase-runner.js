@@ -94,58 +94,14 @@ TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities,
                 serverParams = serverParams + "serverIp = '" + serverIp + "';";
                 initializerScript = serverParams + initializerScript;
 
-                console.log('**** Initializer script', initializerScript);
                 Q.when(session.executeScript(initializerScript), function() {
-                    console.log("connect script launched");
+                    console.log("initialize script launched");
                     // When the socket is instantiated it recorderReady will be called.
                 }, function(err) {
-                    console.log("Record Script Failed", err.value.message);
+                    console.log("initialize script Failed", err.value.message);
                 });
             });
         });
-
-        // fs.readFile(__dirname + "/../../client/webdriver.js", 'utf8', function(err, webDriverScript) {
-        //     // TODOz: remove? console.log(err, webDriverScript);
-        //     if(err) { console.log(err); return; }
-
-        //     // Inject the recording script into the page
-        //     Q.when(session.executeScript(webDriverScript), function() {
-        //         console.log("webdriver script loaded");
-        //         // When the socket is instantiated it recorderReady will be called.
-        //     }, function(err) {
-        //         console.log("Record Script Failed", err.value.message);
-        //     }).then(function() {
-        //         // session.executeScript('alert("foo");', []);
-        //         console.log(session.session.sessionId);
-
-        //         fs.readFile(__dirname + "/../../client/connect.js", 'utf8', function(err, connect) {
-        //             var serverParams = "var sessionId = " + session.session.sessionId + ";";
-        //             serverParams = serverParams + "var serverIp = '" + serverIp + "';";
-        //             connect = serverParams + connect;
-
-        //             Q.when(session.executeScript(connect), function() {
-        //                 console.log("connect script launched");
-        //                 // When the socket is instantiated it recorderReady will be called.
-        //             }, function(err) {
-        //                 console.log("Record Script Failed", err.value.message);
-        //             });
-        //         });
-        //     }).then(function() {
-        //         fs.readFile(__dirname + "/../../client/loadSocketio.js", 'utf8', function(err, socketIo) {
-        //             console.log('socket io', socketIo);
-        //             var serverParams = "var serverIp = '" + serverIp + "';";
-        //             socketIo = serverParams + socketIo;
-        //             Q.when(session.executeScript(socketIo), function() {
-        //                 console.log('socket.io launched');
-        //             }, function(err) {
-        //                 console.log('socket.io failed', err.value);
-        //             });
-        //         });
-        //     });
-        // });
-
-        console.log(__dirname);
-        //
     });
     return 12; // TODOz: clean this up
 

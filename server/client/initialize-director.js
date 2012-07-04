@@ -1,4 +1,4 @@
-console.log('------ Session Id: ', sessionId);
+console.log('Session Id: ', sessionId);
 
 // Not sure why it doesn't come over with it's own session, but we pass it in as part
 // of the connect script. This allows us to connect to the current session
