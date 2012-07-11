@@ -8,8 +8,15 @@ driver.findElement(webdriver.By.name('q')).sendKeys('webdriver');
 driver.findElement(webdriver.By.name('btnG')).click().then(function() {
     driver.getTitle().then(function(title) {
         if (title !== 'webdriver - Google Search') {
-            throw new Error(
-                'Expected "webdriver - Google Search", but was "' + title + '"');
+            console.log('attemtping to send out a message');
+            var event = document.createEvent("CustomEvent");
+            event.initCustomEvent("serverMessage", true, false);
+            event.screeningType = "error";
+            event.screeningContent = "Titles did not match";
+            document.dispatchEvent(event);
+
+            // throw new Error(
+            //     'Expected "webdriver - Google Search", but was "' + title + '"');
         }
     });
 });

@@ -18,6 +18,8 @@ exports.Main = Montage.create(Component, {
             // Add Event Listeners
             window.addEventListener("message", self._receiveMessage, false);
             window.addEventListener("message", function(event) {console.log('boo');});
+
+            document.addEventListener("serverMessage", this, false);
         }
     },
 
@@ -71,6 +73,16 @@ exports.Main = Montage.create(Component, {
         value: function() {
             console.log('foo');
             this.socket.emit("serverPing");
+        }
+    },
+
+    handleServerMessage: {
+        value: function(event) {
+            console.log('got a server message', event, event.screeningType, event.screeningContent);
+            var msg = {};
+            msg.type = event.screeningType;
+            msg.content = event.screeningContent;
+            this.socket.emit("screeningReport", JSON.stringify(msg));
         }
     },
 

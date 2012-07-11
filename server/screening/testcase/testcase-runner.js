@@ -90,6 +90,10 @@ TestcaseRunner.prototype.executeTest = function(testScript, desiredCapabilities,
         // Read the recording script
         session.get('http://localhost:8081/director/index.html').then(function() {
             fs.readFile(__dirname + "/../../client/initialize-director.js", 'utf8', function(err, initializerScript) {
+                if(err) {
+                    console.log('There was an error', err);
+                }
+
                 var serverParams = "sessionId = " + session.session.sessionId + ";";
                 serverParams = serverParams + "serverIp = '" + serverIp + "';";
                 initializerScript = serverParams + initializerScript;

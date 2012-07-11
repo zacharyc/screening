@@ -48,6 +48,10 @@ exports.init = function init(app, agentPool, SCREENING_VERSION) {
         socket.on("serverPing", function() {
             console.log('ping');
         });
+
+        socket.on("screeningReport", function(data) {
+            console.log('receiving screening report', data);
+        });
     });
     
     // attaching our socket.io port here for control-room communication

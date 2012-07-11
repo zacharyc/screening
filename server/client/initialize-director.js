@@ -1,3 +1,4 @@
+console.log('initializing director');
 console.log('Session Id: ', sessionId);
 
 // Not sure why it doesn't come over with it's own session, but we pass it in as part
