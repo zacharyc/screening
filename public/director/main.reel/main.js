@@ -5,7 +5,8 @@
  </copyright> */
 
 var Montage = require("montage/core/core").Montage,
-    Component = require("montage/ui/component").Component;
+    Component = require("montage/ui/component").Component,
+    Screening = require('/director/js/screening.js');
 
 exports.Main = Montage.create(Component, {
     socket: {
@@ -62,8 +63,11 @@ exports.Main = Montage.create(Component, {
             console.log("Director, sessionId is:", sessionId);
             console.log("Director, script name is: TODOz");
 
+            window.a = 'foo';
+            console.log('outside eval', Screening, a);
             // Get the script
             this._getFileFromServer("connect.js", false, function(script) {
+                console.log('right before eval', Screening, a);
                 eval(script);
             });
         }

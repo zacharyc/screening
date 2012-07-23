@@ -1,4 +1,4 @@
-// console.log('loading director');
+console.log('loading director');
 
 // Called sometime after postMessage is called
 // function receiveMessage(event)
@@ -35,3 +35,17 @@ function connectDirector() {
 window.addEventListener("message", function(event) {
     console.log('in director listener');
 });
+
+// window.Screening = Object.create(Object, {
+//     launchApp: {
+//         value: function(url) {
+//             console.log(url);
+//         }
+//     },
+
+//     version: {
+//         value: "1.2.0"
+//     }
+// });
+
+console.log(Screening);
