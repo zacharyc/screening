@@ -6,7 +6,7 @@
 
 var Montage = require("montage/core/core").Montage,
     Component = require("montage/ui/component").Component,
-    Screening = require('/director/js/screening.js');
+    Screening = require('/director/js/screening.js').Screening;
 
 exports.Main = Montage.create(Component, {
     socket: {
@@ -59,16 +59,17 @@ exports.Main = Montage.create(Component, {
             });
             window.connectDirector();
 
-            console.log("Director, serverIp is:", serverIp);
-            console.log("Director, sessionId is:", sessionId);
-            console.log("Director, script name is: TODOz");
+            if(serverIp) {
+                // If we are running from Screening
+                console.log("Director, serverIp is:", serverIp);
+                console.log("Director, sessionId is:", sessionId);
+                console.log("Director, script name is: TODOz");
+            }
 
-            window.a = 'foo';
-            console.log('outside eval', Screening, a);
             // Get the script
             this._getFileFromServer("connect.js", false, function(script) {
-                console.log('right before eval', Screening, a);
-                eval(script);
+                var scriptFunction = Function("Screening", script);
+                scriptFunction(Screening);
             });
         }
     },

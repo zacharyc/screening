@@ -1,9 +1,9 @@
-console.log('running connect.js', a);
+console.log('running connect.js');
 
 var testWindow = window.open('', 'slave');
 driver.switchTo().window('slave');
 
-console.log(Screening);
+Screening.launchApp();
 driver.get('http://www.google.com');
 driver.findElement(webdriver.By.name('q')).sendKeys('webdriver');
 driver.findElement(webdriver.By.name('btnG')).click().then(function() {
